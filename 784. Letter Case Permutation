@@ -1,0 +1,28 @@
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int len = 0;
+        for (int i = 0; i < nums.length; i++){
+            
+            //If nums[i] = 1, of course len + 1.
+            if (i < nums.length - 1 && nums[i] == 1)
+                len++;
+            
+            //But what if the element in nums are all 1?
+            //Then when we reach the last element, check again and pass the answer.
+            else if (i == nums.length - 1 && nums[i] == 1){
+                len++;
+                if (len > max)
+                    max = len;
+            }
+            
+            //When traversing, since this element isn't 1, then we should stop counting here.
+            else if (nums[i] != 1){
+                if (len > max)
+                    max = len;
+                len = 0;
+            }
+        }
+        return max;
+    }
+}
