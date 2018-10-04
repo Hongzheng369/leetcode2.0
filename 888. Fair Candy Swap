@@ -3,16 +3,16 @@ class Solution {
         int m=0;
         int n=0;
         for(int i=0;i<A.length;i++){
-            m=m+A[i];
+            m+=A[i];
         }
         for(int i=0;i<B.length;i++)
-            n=n+B[i];
+            n+=B[i];
         int ans[]=new int[2];
         for(int i=0;i<A.length;i++){
             for(int j=0;j<B.length;j++){
                 int a=A[i];
                 int b=B[j];
-                if(m+2*b == n+2*a){
+                if(m+b-a == n+a-b){
                     ans[0]=a;
                     ans[1]=b;
                     break;
