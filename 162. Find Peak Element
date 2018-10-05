@@ -1,0 +1,22 @@
+class Solution {
+    public int findPeakElement(int[] num) {    
+    return helper(num,0,num.length-1);
+}
+public int helper(int[] num,int start,int end){
+    if(start == end){
+        return start;
+    }else if(start+1 == end){
+        if(num[start] > num[end]) return start;
+        return end;
+    }else{
+        int midd = (start+end)/2;
+        if(num[midd] > num[midd-1] && num[midd] > num[midd+1]){
+            return midd;
+        }else if(num[midd-1] > num[midd] && num[midd] > num[midd+1]){
+            return helper(num,start,midd-1);
+        }else{
+            return helper(num,midd+1,end);
+        }
+    }
+}
+}
