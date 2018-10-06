@@ -1,0 +1,21 @@
+class Solution {
+    public int partitionDisjoint(int[] A) {
+        if(A.length == 2) return 1;
+        int start = 0;
+        int end = 0;
+        int Left = A[0];
+        int max = A[0];
+        while(end < A.length){
+            if(A[end] >= Left){
+                if(max < A[end]) max = A[end];
+            }else{
+                start = end;
+                Left = max; 
+            }
+            end++;
+        }
+        return start + 1; 
+        
+    }
+   
+}
