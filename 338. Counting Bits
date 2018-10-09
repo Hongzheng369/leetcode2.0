@@ -1,0 +1,15 @@
+class Solution {
+    public int[] countBits(int num) { 
+    int[] a = new int[num + 1];
+    int root = 1;
+    int nextroot = 2;
+    for(int i = 1; i<= num; i++){
+        a[i] = 1 + a[i-root];
+        if(i == nextroot - 1){
+            root = nextroot;
+            nextroot *= 2;
+        }
+    }
+    return a;
+    }
+}
