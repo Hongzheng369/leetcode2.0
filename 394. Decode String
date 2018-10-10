@@ -1,0 +1,48 @@
+class Solution {
+    public String decodeString(String s) {
+        if(s==null || s.equals("")){
+            return s;
+        }
+        int i=0,numStart=0, start=0,level=0;
+        String res = "";
+        String num="";
+        while(i<s.length()){
+            char cur = s.charAt(i);
+            if(level==0 && Character.isLetter(cur)){
+                res += cur;
+                numStart++;
+            }
+            if(s.charAt(i) == '['){
+                level++;
+                if(level == 1){
+                    num = s.substring(numStart, i);
+                    start = i+1;
+                }               
+            }
+            if(s.charAt(i)==']'){
+                level--;
+                if(level==0){
+                    String ss = s.substring(start, i);
+                    numStart = i+1;
+                    res = res + helper(num, ss); 
+                }   
+            }
+            i++;
+        }
+        return res;  
+    }
+    
+    
+    private String helper(String num, String ss){
+        String res = "";
+        if(num.equals("") || ss.equals("")){
+            return res;
+        }
+        int number = Integer.parseInt(num);
+        ss = decodeString(ss);
+        for(int j =0; j<number; j++){
+            res += ss;
+        }
+        return res;
+    }
+}
