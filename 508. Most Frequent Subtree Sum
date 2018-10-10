@@ -9,8 +9,9 @@
  */
 class Solution {
     Map<Integer, Integer> map = new HashMap<>();
-    int max = Integer.MIN_VALUE;
+    int max =0;
     List<Integer> list= new ArrayList<>();
+    
     public int[] findFrequentTreeSum(TreeNode root) {
         find(root);
         for(int key:map.keySet()){
