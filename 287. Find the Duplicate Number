@@ -1,0 +1,26 @@
+class Solution {
+     public int findDuplicate(int[] nums) {
+        int sum = 0; // holds the sum of missing numbers
+        int missingnum = 0; // holds the number missing numbers
+        int n = nums.length - 1;
+        int nsum = (n*(n+1))/2;
+        int actualsum = 0; // holds the sum of array
+        for(int i=1; i < nums.length ; i++){
+            if(!isPresent(i,nums)){
+                sum = sum + i;
+                missingnum ++;
+            }
+            actualsum += nums[i-1];
+        }
+        actualsum += nums[nums.length - 1];
+        return (actualsum + sum - nsum)/(missingnum + 1);
+    }
+    boolean isPresent(int key, int []nums){
+        for(int i:nums){
+            if(i == key){
+                return true;
+            }
+        }
+        return false;
+    }
+}
