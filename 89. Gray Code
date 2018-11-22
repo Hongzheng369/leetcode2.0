@@ -1,0 +1,21 @@
+public class Solution {
+    public List<Integer> grayCode(int n) {
+        List<Integer> list = new ArrayList<Integer>();
+        if (n==0) {
+            list.add(0);
+        } else {
+            grayCode(n, 0, list);
+        }
+        return list;
+    }
+    public void grayCode(int n, int val, List<Integer> list) {
+        int flag = Integer.bitCount(val)%2;
+        if (n > 1) {
+            grayCode(n-1, val<<1|(flag&1), list);
+            grayCode(n-1, val<<1|(flag^1), list);
+        } else {
+            list.add(val<<1|(flag&1));
+            list.add(val<<1|(flag^1));
+        }
+    }
+}
