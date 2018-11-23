@@ -1,0 +1,29 @@
+class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> ips = new LinkedList<>();
+        backtrack(s, 0, "", ips, 0);
+        return ips;
+    }
+
+    private void backtrack(String s, int begin, String ip, List<String> ips, int count) {
+        if (begin == s.length() && count == 4) {
+            ips.add(ip);
+        }
+        if (count > 4) {
+            return;
+        }
+
+        for (int i = begin+1; i <= s.length(); i++) {
+            String part = s.substring(begin, i);
+            if (Integer.valueOf(part) > 255 || part.length() > 1 && part.charAt(0) == '0') {
+                break;
+            }
+
+            if (count == 0) {
+                backtrack(s, i, ip + part, ips, count+1);
+            } else {
+                backtrack(s, i, ip + "." + part, ips, count+1);
+            }
+        }
+    }
+}
