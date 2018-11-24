@@ -1,0 +1,17 @@
+public static TreeNode buildTree(int[] preorder, int[] inorder) {
+    if(preorder==null || inorder==null || preorder.length!=inorder.length) return null;
+    Map<Integer, Integer> InoderMap = new HashMap<Integer, Integer>();
+    for (int i = 0; i < inorder.length; i++) {
+      InoderMap.put(inorder[i], i);
+    }
+    return buildTree(preorder, 0,preorder.length-1,inorder,0, inorder.length - 1,InoderMap);
+  }
+
+  public static TreeNode buildTree(int[] preorder, int ps,int pe, int[] inorder,int is,int ie,Map<Integer, Integer> InoderMap) {
+    if (ps>pe || is>ie) return null;
+    TreeNode root = new TreeNode(preorder[ps]);
+    int rootIndex = InoderMap.get(root.val);
+    root.left = buildTree(preorder,ps+1,ps+rootIndex-is,inorder,is,rootIndex-1,InoderMap);
+    root.right = buildTree(preorder,ps+rootIndex-is+1,pe,inorder,rootIndex+1,ie,InoderMap);
+    return root;
+  }
