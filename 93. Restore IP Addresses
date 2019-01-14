@@ -1,29 +1,22 @@
 class Solution {
     public List<String> restoreIpAddresses(String s) {
-        List<String> ips = new LinkedList<>();
-        backtrack(s, 0, "", ips, 0);
-        return ips;
+        List<String> res = new ArrayList<String>();
+        int len = s.length();
+        for(int i = 1; i<4 && i<len-2; i++){
+            for(int j = i+1; j<i+4 && j<len-1; j++){
+                for(int k = j+1; k<j+4 && k<len; k++){
+                    String s1 = s.substring(0,i), s2 = s.substring(i,j), s3 = s.substring(j,k), s4 = s.substring(k,len);
+                    if(isValid(s1) && isValid(s2) && isValid(s3) && isValid(s4)){
+                        res.add(s1+"."+s2+"."+s3+"."+s4);
+                    }
+                }
+            }
+        }
+        return res;
     }
-
-    private void backtrack(String s, int begin, String ip, List<String> ips, int count) {
-        if (begin == s.length() && count == 4) {
-            ips.add(ip);
-        }
-        if (count > 4) {
-            return;
-        }
-
-        for (int i = begin+1; i <= s.length(); i++) {
-            String part = s.substring(begin, i);
-            if (Integer.valueOf(part) > 255 || part.length() > 1 && part.charAt(0) == '0') {
-                break;
-            }
-
-            if (count == 0) {
-                backtrack(s, i, ip + part, ips, count+1);
-            } else {
-                backtrack(s, i, ip + "." + part, ips, count+1);
-            }
-        }
+    public boolean isValid(String s){
+        if(s.length()>3 || s.length()==0 || (s.charAt(0)=='0' && s.length()>1) || Integer.parseInt(s)>255)
+            return false;
+        return true;
     }
 }
