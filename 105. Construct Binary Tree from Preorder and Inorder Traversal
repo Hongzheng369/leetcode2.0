@@ -15,4 +15,3 @@ public static TreeNode buildTree(int[] preorder, int[] inorder) {
     root.right = buildTree(preorder,ps+rootIndex-is+1,pe,inorder,rootIndex+1,ie,InoderMap);
     return root;
   }
-
