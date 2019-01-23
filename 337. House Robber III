@@ -22,3 +22,37 @@ class Solution {
         return res;
     }
 }
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int rob(TreeNode root) {
+        return helperRob(root)[1];
+    }
+    
+    public int[] helperRob(TreeNode root) {
+        
+        // ans[0] = To this node's children level, how much can I steal.
+        // ans[1] = To this node's level, how much can I steal.
+        int[] ans = {0, 0};
+        
+        if (root != null) {
+            int[] robLeft = helperRob(root.left);
+            int[] robRight = helperRob(root.right);
+            ans[0] = robLeft[1] + robRight[1];
+            ans[1] = Math.max(ans[0], robLeft[0] + robRight[0] + root.val);
+        }
+        
+        return ans;
+    }
+}
