@@ -1,0 +1,28 @@
+class Solution {
+    public String getPermutation(int n, int k) {
+        
+        StringBuilder res = new StringBuilder();
+        List<Integer> list = new ArrayList();
+        for(int i = 1; i <= n; i++)
+        {list.add(i); }
+        
+        int fac = Factorial(--n); k--;
+          
+        while(n > 0){
+            res.append(list.remove(k/fac));
+            k = k % fac;
+            fac /= (n--);
+        }
+        
+        res.append(list.remove(0));
+        return res.toString();
+    }
+    
+    public int Factorial(int n){
+        int fac = 1;
+        for(int i = 2; i <= n; i++){
+            fac *= i;
+        }
+        return fac;
+    }
+}
