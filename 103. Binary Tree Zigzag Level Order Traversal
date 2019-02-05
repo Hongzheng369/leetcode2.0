@@ -33,3 +33,4 @@ class Solution {
         travel(curr.right, sol, level + 1);
     }
 }
+
