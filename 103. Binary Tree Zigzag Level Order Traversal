@@ -15,7 +15,6 @@ class Solution {
         return sol;
     }
     
-    
     private void travel(TreeNode curr, List<List<Integer>> sol, int level)
     {
         if(curr == null) return;
