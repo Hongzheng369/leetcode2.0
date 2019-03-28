@@ -20,3 +20,56 @@ public static TreeNode buildTree(int[] preorder, int[] inorder) {
     root.right = buildTree(preorder,ps+rootIndex-is+1,pe,inorder,rootIndex+1,ie,InoderMap);
     return root;
   }
+
+
+
+
+////2nd 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        //base case
+        if(preorder.length ==0 || inorder.length == 0){
+            return null;
+        }
+        
+        TreeNode head = recursiveBuild(preorder, inorder,0, preorder.length-1,0,inorder.length -1);
+        return head;
+    }
+    
+    public TreeNode recursiveBuild(int[] preorder, int[] inorder, int headForPre, int tailForPre, int headForIn, int tailForIn ){
+        if(headForIn == tailForIn || headForPre == tailForPre){
+            return new TreeNode(inorder[headForIn]);
+            
+        }
+        if(headForIn > tailForIn || headForPre > tailForPre)
+            return null;
+        
+        TreeNode head = new TreeNode(preorder[headForPre]);
+        
+        int indexForHead = 0;
+        
+        for(int i =0;i<inorder.length;i++){
+            if(inorder[i] == head.val){
+                indexForHead = i;
+                break;
+            }
+        }
+        int leftTreeLen = indexForHead - headForIn;
+        int rightTreeLen = tailForIn - indexForHead;
+        
+        
+        head.left = recursiveBuild(preorder, inorder, headForPre +1, headForPre + leftTreeLen, headForIn, indexForHead -1 );
+        head.right = recursiveBuild(preorder, inorder, tailForPre - rightTreeLen +1, tailForPre, indexForHead+1, tailForIn);
+        return head;
+        
+    }
+}
