@@ -1,0 +1,27 @@
+class Solution {
+    public int[][] merge(int[][] intervals) {
+	// sort start&end
+	int n = intervals.length;
+	int[] starts = new int[n];
+	int[] ends = new int[n];
+	for (int i = 0; i < n; i++) {
+		starts[i] = intervals[i][0];
+		ends[i] = intervals[i][1];
+	}
+	Arrays.sort(starts);
+	Arrays.sort(ends);
+	// loop through
+	int[][] res = new int[n][2];
+    int a,i,j = 0;
+	for (a=0,i=0,j = 0; i < n; i++) { // j is start of interval.
+		if (i == n - 1 || starts[i + 1] > ends[i]) {
+			res[a][0] = starts[j];
+            res[a][1] = ends[i];
+            a++;
+            //res.add(new Interval(starts[j], ends[i]));
+			j = i + 1;
+		}
+	}
+	return Arrays.copyOfRange(res, 0, a);
+}
+}
