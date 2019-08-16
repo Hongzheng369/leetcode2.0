@@ -1,0 +1,66 @@
+题目大意
+玩一个生存游戏。这个游戏给了一个二维数组，每个数组上写的是这个地方是否有部落。看每个位置的8-连通位置的部落数：
+
+如果一个活着的部落，其周围少于2个部落，这个部落会死
+如果一个活着的部落，其周围部落数在2或者3，这个部落活到下一个迭代中
+如果一个活着的部落，其周围多于3个部落，这个部落会死
+如果一个死了的部落，其周围多于3个部落，这个部落会活
+一次迭代是同时进行的，求一轮之后，整个数组。
+ ———————————————— 
+class Solution {
+    public void gameOfLife(int[][] board) {
+        int maxRow = board.length - 1;
+        int maxCol = board[0].length - 1;
+        for (int i = 0; i <= maxRow; i++){
+            for (int j = 0; j <= maxCol; j++){
+                int count = 0;
+
+                //1 If it is a dead cell:
+                if (board[i][j] == 0){
+                    //1.1 Now do the counting.
+                    for (int x = -1; x <= 1; x++){
+                        if (i + x >= 0 && i + x <= maxRow){
+                            for (int y = -1; y <= 1; y++){
+                                if (j + y >= 0 && j + y <= maxCol){
+                                    if ((x != 0 || y != 0) && ((board[i + x][j + y] & 1) == 1))
+                                        count++;
+                                }
+                            }
+                        }
+                    }
+                    //1.2 Check if it needs to change.
+                    if (count == 3)
+                        board[i][j] = 2;
+                    else
+                        board[i][j] = 0;
+                }
+
+                //2 If it is a live cell:
+                else if (board[i][j] == 1){
+                    //2.1 Now do the counting.
+                    for (int x = -1; x <= 1; x++){
+                        if (i + x >= 0 && i + x <= maxRow){
+                            for (int y = -1; y <= 1; y++){
+                                if (j + y >= 0 && j + y <= maxCol){
+                                    if ((x != 0 || y != 0) && ((board[i + x][j + y] & 1) == 1))
+                                        count++;
+                                }
+                            }
+                        }
+                    }
+                    //2.2 Check if it needs to change.
+                    if (count == 2 || count == 3)
+                        board[i][j] = 3;
+                    else
+                        board[i][j] = 1;
+                }
+            }
+        }
+
+        //Print the matrix.
+        for (int i = 0; i <= maxRow; i++){
+            for (int j = 0; j <= maxCol; j++)
+                board[i][j] = (board[i][j] >> 1);
+        }
+    }
+}
