@@ -1,0 +1,69 @@
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        // initiate
+        List<String> ans = new ArrayList<>();
+        int index = 0;
+        
+        // start traversing
+        while (index < words.length) {
+            // count the first word in
+            int len = words[index].length();
+            int lastWordIndex = index + 1;
+            
+            // check how many extra words can be added in one line
+            while (lastWordIndex < words.length) {
+                // if it is too long, stop right here
+                if (len + 1 + words[lastWordIndex].length() > maxWidth) {
+                    break;
+                }
+                
+                // otherwise, keep counting
+                len += (1 + words[lastWordIndex].length());
+                lastWordIndex++;
+            }
+            
+            // initiate and add the first word in StringBuilder
+            StringBuilder line = new StringBuilder();
+            line.append(words[index]);
+            int wordsLeft = lastWordIndex - 1 - index;
+            
+            // if it is the last line of the format, or it only has one word in this line
+            if (lastWordIndex == words.length || wordsLeft == 0) {
+                for (int i = index + 1; i < lastWordIndex; i++) {
+                    line.append(' ');
+                    line.append(words[i]);
+                }
+                
+                int totalSpaces = maxWidth - len;
+                for (int i = 0; i < totalSpaces; i++) {
+                    line.append(' ');
+                }
+            } 
+            // Or if it is not the case
+            else {
+                int totalSpaces = maxWidth - len;
+                int baseSpaces = totalSpaces / wordsLeft;
+                int addSpaces = totalSpaces % wordsLeft;
+                
+                for (int i = index + 1; i < lastWordIndex; i++) {
+                    for (int k = 0; k < baseSpaces; k++) {
+                        line.append(' ');
+                    }
+                    if (addSpaces > 0) {
+                        line.append(' ');
+                        addSpaces--;
+                    }
+                    
+                    line.append(' ');
+                    line.append(words[i]);
+                }
+            }
+            
+            // add this line into the answer
+            ans.add(line.toString());
+            index = lastWordIndex;
+        }
+        
+        return ans;
+    }
+}
