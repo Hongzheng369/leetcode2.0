@@ -1,0 +1,39 @@
+public class Solution {
+   public List<List<String>> findDuplicate(String[] paths) {
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for(int i = 0; i < paths.length; i++) {
+            int indexOpen = paths[i].indexOf('(');
+            int indexClose = paths[i].indexOf(')');
+            int indexSpace = paths[i].indexOf(" ");
+            String root = paths[i].substring(0, indexSpace);
+
+
+            while(indexOpen != -1) {
+                String content = paths[i].substring(indexOpen + 1, indexClose);
+
+                if(map.containsKey(content)) {
+                    map.get(content).add(root + "/" + paths[i].substring(indexSpace + 1, indexOpen));
+                }
+                else {
+                    List<String> list = new ArrayList<>();
+                    list.add(root + "/" + paths[i].substring(indexSpace + 1, indexOpen));
+                    map.put(content, list);
+                }
+
+                indexOpen = paths[i].indexOf('(', indexOpen + 1);
+                indexClose = paths[i].indexOf(')', indexClose + 1);
+                indexSpace = paths[i].indexOf(" ", indexSpace + 1);
+            }
+        }
+
+        List<List<String>> ans = new ArrayList<>();
+        for(List<String> value: map.values()) {
+            if(value.size() > 1) {
+                ans.add(value);
+            }
+        }
+
+        return ans;
+    }
+}
