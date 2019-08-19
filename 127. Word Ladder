@@ -1,9 +1,7 @@
 class Solution {
 	public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-		Set<String> dic = new HashSet<>();
-		for (String word : wordList) {
-			dic.add(word);
-		}
+		Set<String> dic = new HashSet<>(wordList);
+		
 
 		if (!dic.contains(endWord)) return 0;
 
