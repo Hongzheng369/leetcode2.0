@@ -1,7 +1,7 @@
-class Solution {
+public class Solution {
 public int calculate(String s) {
-    int len;
-    if(s==null || (len = s.length())==0) return 0;
+    int len=s.length();
+    if(s==null || s.length()==0) return 0;
     Stack<Integer> stack = new Stack<Integer>();
     int num = 0;
     char sign = '+';
@@ -27,10 +27,10 @@ public int calculate(String s) {
         }
     }
 
-    int re = 0;
+    int res = 0;
     for(int i:stack){
-        re += i;
+        res += i;
     }
-    return re;
+    return res;
 }
 }
