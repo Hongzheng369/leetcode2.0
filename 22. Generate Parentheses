@@ -15,4 +15,3 @@ class Solution {
                 backtrack(list, str + ")", open, end+1, max);     
         }    
 }
-
