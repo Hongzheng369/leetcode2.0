@@ -48,8 +48,7 @@ private DLinkedNode popTail(){
   return res;
 }
 
-private Hashtable<Integer, DLinkedNode> 
-  cache = new Hashtable<Integer, DLinkedNode>();
+private Hashtable<Integer, DLinkedNode> cache = new Hashtable<Integer, DLinkedNode>();
 private int count;
 private int capacity;
 private DLinkedNode head, tail;
@@ -94,13 +93,13 @@ public void put(int key, int value) {
     this.cache.put(key, newNode);
     this.addNode(newNode);
 
-    ++count;
+    count++;
 
     if(count > capacity){
       // pop the tail
       DLinkedNode tail = this.popTail();
       this.cache.remove(tail.key);
-      --count;
+      count--;
     }
   }else{
     // update the value.
