@@ -14,7 +14,7 @@ class Solution {
 	int[][] res = new int[n][2];
     int a,i,j = 0;
 	for (a=0,i=0,j = 0; i < n; i++) { // j is start of interval.
-		if (i == n - 1 || starts[i + 1] > ends[i]) {
+		if (i == n - 1 || starts[i+1] > ends[i]) {
 			res[a][0] = starts[j];
             res[a][1] = ends[i];
             a++;
