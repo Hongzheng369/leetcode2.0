@@ -1,0 +1,20 @@
+class Solution {
+   public int trap(int[] A){
+    int i=0, j=A.length-1;
+     
+    int max=0 , leftmax=0, rightmax=0;
+    while(i<=j){
+        leftmax=Math.max(leftmax,A[i]);
+        rightmax=Math.max(rightmax,A[j]);
+        if(leftmax < rightmax){
+            max+=(leftmax-A[i]);       // leftmax is smaller than rightmax, so the (leftmax-A[a]) water can be stored
+            i++;
+        }
+        else{
+            max+=(rightmax-A[j]);
+            j--;
+        }
+    }
+    return max;
+}
+}
