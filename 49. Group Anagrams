@@ -9,7 +9,7 @@ public class Solution {
             Arrays.sort(ca);
             String keyStr = String.valueOf(ca);
           
-            if (!map.containsKey(s)) {
+            if (!map.containsKey(keyStr)) {
                  map.put(keyStr, new ArrayList<String>());
             }               
            
