@@ -1,10 +1,10 @@
 class MedianFinder {
 
-    private Queue<Long> small = new PriorityQueue(),
+    private Queue<Integer> small = new PriorityQueue(),
                         large = new PriorityQueue();
 
     public void addNum(int num) {
-        large.add((long) num);
+        large.add( num);
         small.add(-large.poll());
         if (large.size() < small.size())
             large.add(-small.poll());
@@ -15,4 +15,4 @@ class MedianFinder {
                ? large.peek()
                : (large.peek() - small.peek()) / 2.0;
     }
-};
+}
