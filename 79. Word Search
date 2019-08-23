@@ -26,3 +26,4 @@ private boolean exist(char[][] board, int i, int j, char[] word, int k) {
 	return exist;
 }
 }
+
