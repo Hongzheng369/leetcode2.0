@@ -11,7 +11,7 @@ class Solution {
         }
         long ans = r;
         while (l <= r) {
-            long mid = (l + r) >> 1;
+            long mid = (l + r)/2;
             long sum = 0;
             int cnt = 1;
             for (int i = 0; i < n; i++) {
