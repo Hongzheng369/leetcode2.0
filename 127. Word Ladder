@@ -1,35 +1,48 @@
-class Solution {
-	public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-		Set<String> dic = new HashSet<>(wordList);
-		
+public class Solution {
 
-		if (!dic.contains(endWord)) return 0;
+public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+	Set<String> beginSet = new HashSet<String>(), endSet = new HashSet<String>(), dict = new HashSet<>(wordList);
+    if(!dict.contains(endWord)) return 0;
+	int len = 1;
+	int strLen = beginWord.length();
+	HashSet<String> visited = new HashSet<String>();
+	
+	beginSet.add(beginWord);
+	endSet.add(endWord);
+	while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+		if (beginSet.size() > endSet.size()) {
+			Set<String> set = beginSet;
+			beginSet = endSet;
+			endSet = set;
+		}
 
-		Queue<String> q = new ArrayDeque<>();
-		int steps = 0;
-		int len = beginWord.length();
-		q.offer(beginWord);
-		while (!q.isEmpty()) {
-			steps++;
-			//int s = q.size();
-			for (int s = q.size(); s > 0; --s) {
-				String word = q.poll();
-				char[] chars = word.toCharArray();
-				for (int i = 0; i < len; i++) {
-					char ch = chars[i];
-					for (char c = 'a'; c <= 'z'; c++) {
-						if (c == ch) continue;
-						chars[i] = c;
-						String t = new String(chars);
-						if (t.equals(endWord)) return steps+1;
-						if (!dic.contains(t)) continue;
-						dic.remove(t);
-						q.offer(t);
+		Set<String> temp = new HashSet<String>();
+		for (String word : beginSet) {
+			char[] chs = word.toCharArray();
+
+			for (int i = 0; i < chs.length; i++) {
+				for (char c = 'a'; c <= 'z'; c++) {
+					char old = chs[i];
+					chs[i] = c;
+					String target = String.valueOf(chs);
+
+					if (endSet.contains(target)) {
+						return len + 1;
 					}
-					chars[i] = ch;
+
+					if (!visited.contains(target) && dict.contains(target)) {
+						temp.add(target);
+						visited.add(target);
+					}
+					chs[i] = old;
 				}
 			}
 		}
-		return 0;
+
+		beginSet = temp;
+		len++;
 	}
+	
+	return 0;
+}
 }
