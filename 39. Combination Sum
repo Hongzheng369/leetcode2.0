@@ -1,26 +1,23 @@
-class Solution {
-	Set<List<Integer>> set = new HashSet<>();
 
-	private void dynamic(int[] candidates, int target, List<Integer> combo) {
-		if (target == 0) {
-			Collections.sort(combo);
-			set.add(combo);
-			return;
-		} else if (target < 0) {
-			return;
-		} else {
-			for (int i : candidates) {
-				int sub = target - i;
-				List<Integer> next = new ArrayList<>(combo);
-				next.add(i);
-				dynamic(candidates, sub, next);
-			}
-		}
-	}
-
-	public List<List<Integer>> combinationSum(int[] candidates, int target) {
-		dynamic(candidates, target, new ArrayList<Integer>());
-		return new ArrayList<List<Integer>>(set);
-	}
-
+public class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    	Arrays.sort(candidates);
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        getResult(result, new ArrayList<Integer>(), candidates, target, 0);
+        
+        return result;
+    }
+    
+    private void getResult(List<List<Integer>> result, List<Integer> cur, int[] candidates, int target, int start){
+    	if(target > 0){
+    		for(int i = start; i < candidates.length && target >= candidates[i]; i++){
+    			cur.add(candidates[i]);
+    			getResult(result, cur, candidates, target - candidates[i], i);
+    			cur.remove(cur.size() - 1);
+    		}//for
+    	}//if
+    	else if(target == 0 ){
+    		result.add(new ArrayList<Integer>(cur));
+    	}//else if
+    }
 }
