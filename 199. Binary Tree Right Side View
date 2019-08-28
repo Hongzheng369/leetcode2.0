@@ -8,18 +8,22 @@
  * }
  */
 public class Solution {
-    private List<Integer> res = new ArrayList<>();
     public List<Integer> rightSideView(TreeNode root) {
-        if (root == null) return res;
-        dfs(root, 0);
-        return res;
+        List<Integer> result = new ArrayList<Integer>();
+        helper(root, result, 0);
+        return result;
     }
-    private void dfs(TreeNode root, int level) {
-        if (root == null) return;
-        if (level == res.size()) {
-            res.add(root.val);
+    
+    public void helper(TreeNode curr, List<Integer> result, int currDepth){
+        if(curr == null){
+            return;
         }
-        dfs(root.right, level + 1);
-        dfs(root.left, level + 1);
+        if(currDepth == result.size()){
+            result.add(curr.val);
+        }
+        
+        helper(curr.right, result, currDepth + 1);
+        helper(curr.left, result, currDepth + 1);
+        
     }
 }
