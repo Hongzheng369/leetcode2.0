@@ -1,0 +1,70 @@
+class Solution {
+	class BuildingPoint {
+		int x, height;
+		boolean isStart;
+
+		BuildingPoint(int x, int height, boolean isStart) {
+			this.x = x;
+			this.height = height;
+			this.isStart = isStart;
+		}
+	}
+
+	public List<List<Integer>> getSkyline(int[][] buildings) {
+		// handle empty case
+		List<List<Integer>> keyPoints = new ArrayList<>();
+		if (buildings == null || buildings.length == 0) {
+			return keyPoints;
+		}
+
+		// making points
+		int len = buildings.length, index = 0;
+		BuildingPoint[] points = new BuildingPoint[len * 2];
+		for (int[] building : buildings) {
+			points[index] = new BuildingPoint(building[0], building[2], true);
+			points[index + 1] = new BuildingPoint(building[1], building[2], false);
+			index += 2;
+		}
+
+		// sort the points
+		Arrays.sort(points, new Comparator<BuildingPoint>() {
+			@Override
+			public int compare(BuildingPoint p1, BuildingPoint p2) {
+				if (p1.x != p2.x) {
+					return p1.x - p2.x;
+				} else {
+					return (p1.isStart ? -p1.height : p1.height) - (p2.isStart ? -p2.height : p2.height);
+				}
+			}
+		});
+
+		// initiate the data structure
+		TreeMap<Integer, Integer> sortedMap = new TreeMap<>();
+		sortedMap.put(0, 1);
+		int prevMaxHeight = 0;
+
+		for (BuildingPoint point : points) {
+			if (point.isStart) {
+				sortedMap.put(point.height, sortedMap.getOrDefault(point.height, 0) + 1);
+			} else {
+				int removeResult = sortedMap.get(point.height) - 1;
+				if (removeResult == 0) {
+					sortedMap.remove(point.height);
+				} else {
+					sortedMap.put(point.height, removeResult);
+				}
+			}
+
+			int currMaxHeight = sortedMap.lastKey();
+			if (prevMaxHeight != currMaxHeight) {
+				List<Integer> temp = new ArrayList<>();
+				temp.add(point.x);
+				temp.add(currMaxHeight);
+				keyPoints.add(temp);
+				prevMaxHeight = currMaxHeight;
+			}
+		}
+
+		return keyPoints;
+	}
+}
