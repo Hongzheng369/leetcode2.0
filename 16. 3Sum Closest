@@ -1,4 +1,4 @@
-class Solution {
+public class Solution {
     public int threeSumClosest(int[] num, int target) {
         int result = num[0] + num[1] + num[num.length - 1];
         Arrays.sort(num);
@@ -13,6 +13,7 @@ class Solution {
                 }
                 if (Math.abs(sum - target) < Math.abs(result - target)) {
                     result = sum;
+                    //break;
                 }
             }
         }
