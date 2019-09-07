@@ -1,19 +1,15 @@
-class Solution {
-   public List<Integer> findDuplicates(int[] nums) {
-        List<Integer> result = new ArrayList<>();
-        for(int i = 0; i < nums.length; i++){
-            while(nums[i] - 1 != i){
-                int temp = nums[nums[i] - 1];
-                
-                if(temp == nums[i])
-                {break;}
-                nums[nums[i] - 1] = nums[i];
-                nums[i] = temp;
-            }
+public class Solution {
+    // when find a number i, flip the number at position i-1 to negative. 
+    // if the number at position i-1 is already negative, i is the number that occurs twice.
+    
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; ++i) {
+            int index = Math.abs(nums[i])-1;
+            if (nums[index] < 0)
+                res.add(Math.abs(index+1));
+            nums[index] = -nums[index];
         }
-        for(int i = 0; i < nums.length; i++)
-            if(nums[i] - 1 != i) 
-            {result.add(nums[i]);}
-       return result;
+        return res;
     }
 }
