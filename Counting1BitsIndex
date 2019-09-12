@@ -1,0 +1,23 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+ 
+class bitCount
+{
+    public List<Integer> bit(int deci) {
+        String bin_str = Integer.toBinaryString(deci);
+        List<Integer> index_list = new ArrayList<Integer>();
+        for(int i=0; i< bin_str.length(); i++) {
+            if (bin_str.charAt(i) == '1') {
+                index_list.add(i);
+            }
+        }
+        return index_list;
+    }
+ 
+    public static void main (String[] args) throws java.lang.Exception {
+        bitCount example = new bitCount();
+        List<Integer> result = example.bit(27);
+        System.out.println(result);
+    }
+}
