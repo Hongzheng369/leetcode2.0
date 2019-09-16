@@ -1,5 +1,31 @@
 class Solution {
     public int[][] kClosest(int[][] points, int K) {
+        int N = points.length;
+        int[] distance = new int[N];
+        for(int i = 0; i<N;i++){
+            distance[i] = helper(points[i]);
+        }
+        Arrays.sort(distance);
+        int disK = distance[K-1];
+        
+        int[][] res = new int[K][2];
+        int t = 0;
+        for(int i = 0; i < N; i++){
+            if(helper(points[i]) <= disK)
+                res[t++] = points[i];
+        }
+        return res;
+        
+    }
+    public int helper(int[] point){
+        return point[0]*point[0]+point[1]*point[1];
+    }
+}
+
+
+
+class Solution {
+    public int[][] kClosest(int[][] points, int K) {
         int l = 0, r= points.length - 1;
         while(l <= r){
             int mid = helper(points, l, r);
