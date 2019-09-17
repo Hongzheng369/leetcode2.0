@@ -9,59 +9,53 @@
  ———————————————— 
 class Solution {
     public void gameOfLife(int[][] board) {
-        int maxRow = board.length - 1;
-        int maxCol = board[0].length - 1;
-        for (int i = 0; i <= maxRow; i++){
-            for (int j = 0; j <= maxCol; j++){
+        int row = board.length-1, col = board[0].length-1;
+        for(int i = 0; i<= row;i++){
+            for(int j = 0; j <= col;j++){
                 int count = 0;
-
-                //1 If it is a dead cell:
-                if (board[i][j] == 0){
-                    //1.1 Now do the counting.
-                    for (int x = -1; x <= 1; x++){
-                        if (i + x >= 0 && i + x <= maxRow){
-                            for (int y = -1; y <= 1; y++){
-                                if (j + y >= 0 && j + y <= maxCol){
+                if(board[i][j] == 0){
+                    for(int x= -1; x<= 1;x++){
+                        if(i + x >= 0 && i + x <= row){
+                            for(int y = -1; y <= 1; y++){
+                                if(y + j >= 0 && y + j <= col){
                                     if ((x != 0 || y != 0) && ((board[i + x][j + y] & 1) == 1))
                                         count++;
+                                    
                                 }
                             }
                         }
-                    }
-                    //1.2 Check if it needs to change.
-                    if (count == 3)
-                        board[i][j] = 2;
+                    }               
+                    if(count == 3)
+                         board[i][j] = 2;
                     else
-                        board[i][j] = 0;
-                }
-
-                //2 If it is a live cell:
-                else if (board[i][j] == 1){
-                    //2.1 Now do the counting.
-                    for (int x = -1; x <= 1; x++){
-                        if (i + x >= 0 && i + x <= maxRow){
-                            for (int y = -1; y <= 1; y++){
-                                if (j + y >= 0 && j + y <= maxCol){
-                                    if ((x != 0 || y != 0) && ((board[i + x][j + y] & 1) == 1))
+                         board[i][j] = 0;
+                
+              }
+               else if(board[i][j] == 1){
+                    for(int x= -1; x<= 1;x++){
+                        if(i + x >= 0 && i + x <= row){
+                            for(int y = -1; y <= 1; y++){
+                                if(y + j >= 0 && y + j <= col){
+                                    if((x != 0 || y != 0) && ((board[i+x][j+y] & 1) == 1))
                                         count++;
+                                    
                                 }
                             }
                         }
-                    }
-                    //2.2 Check if it needs to change.
-                    if (count == 2 || count == 3)
-                        board[i][j] = 3;
+                    }               
+                    if(count ==2 || count==3)
+                         board[i][j] = 3;
                     else
-                        board[i][j] = 1;
-                }
+                         board[i][j] = 1;
+                
+              }
             }
         }
-
-        //Print the matrix.
-        for (int i = 0; i <= maxRow; i++){
-            for (int j = 0; j <= maxCol; j++)
-                board[i][j] = (board[i][j] >> 1);
+        for(int i = 0; i<= row; i++){
+            for(int j = 0; j <= col; j++){
+                board[i][j] = board[i][j] >> 1;
+            }
         }
+        
     }
 }
-
