@@ -1,29 +1,26 @@
 class Solution {
     public List<String> removeInvalidParentheses(String s) {
-        List<String> res = new ArrayList<>();
-        bt(s, res, 0, 0, '(', ')');
-        return res;
+        List<String> ans = new ArrayList<>();
+        bt(s, ans, 0, 0, new char[]{'(',')'});
+        return ans;        
     }
     
-    public void bt(String s, List<String> list, int iStart, int jStart, char open, char close){
-        int numOpen = 0, numClose = 0;
-        for(int i = iStart ;i < s.length(); i++){
-            if(s.charAt(i) == open)
-                numOpen++;
-            if(s.charAt(i) == close)
-                numClose++;
-            if(numClose > numOpen){
-                for(int j = jStart; j<= i; j++){
-                    if(s.charAt(j) == close && (j == jStart || s.charAt(j - 1) != close))
-                        bt(s.substring(0,j) + s.substring(j+1), list, i, j, open, close);                   
-                }
-                 return;
+    public void bt(String s, List<String> ans, int last_i, int last_j, char[] par){
+        for(int stack = 0, i = last_i; i < s.length() ; i++){
+            if(s.charAt(i) == par[0]) stack++;
+            if(s.charAt(i) == par[1]) stack--;
+            if(stack >= 0) continue;
+            for(int j = last_j; j <= i; j++){
+                if(s.charAt(j) == par[1] && (j == last_j || s.charAt(j - 1) != par[1]))
+                    bt(s.substring(0, j) + s.substring(j + 1, s.length()), ans, i, j, par);
+           
             }
+        return;
         }
-        String reversed = new StringBuilder(s).reverse().toString();
-        if(open == '(')
-            bt(reversed, list, 0, 0, ')','(');
+        String reverse = new StringBuilder(s).reverse().toString();
+        if(par[0] == '(')
+            bt(reverse, ans, 0, 0, new char[]{')','('});
         else
-            list.add(reversed);
+            ans.add(reverse);
     }
 }
