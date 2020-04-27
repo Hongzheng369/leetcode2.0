@@ -17,3 +17,35 @@ class Solution {
         return cmp == 0 ? m - n : cmp;
     }
 }
+
+
+953. Verifying an Alien Dictionary
+953. Verifying an Alien Dictionary
+class Solution {
+    public boolean isAlienSorted(String[] words, String order) {
+        if(words.length == 0) return true;
+        int a = 0;
+        int idx = 0;
+        while(a < words.length-1){
+            idx = 0;
+            for(int i=0, j = 0; i < words[a].length() && j < words[a+1].length(); ){
+               int m = order.indexOf(words[a].charAt(i));
+               int n = order.indexOf(words[a+1].charAt(j));
+               if(m < n){
+                   break;
+               }
+               if(m > n){
+                   return false;
+               } 
+               if( m == n){
+                   i++;
+                   j++;
+               }
+               if( j == words.length) return false;
+                
+            }
+            a++;
+        }
+        return true;
+    }
+}
