@@ -1,81 +1,58 @@
-class Solution {
-       public static String alienOrder(String[] words) {
-        StringBuilder sb  = new StringBuilder();
-
-        HashSet[] graph = new HashSet[26];
-        Map<Integer,Integer> degree = new HashMap();
-           
-        // 首先全部出现的char都需要有入度，防止后面一一对应的时候不能访问到
-        // eg. wr wrf
-        for (String word:words){
-            for (char ch: word.toCharArray()){
-                degree.put(ch-'a',0);
+public class Solution {
+    public String alienOrder(String[] words) {
+        HashMap<Character, Set<Character>> map = new HashMap<Character, Set<Character>>();//<c, char after c>
+        HashMap<Character, Integer> degree = new HashMap<Character, Integer>();//<c, # of char before c>
+        StringBuilder res = new StringBuilder();
+        //initialize degree map
+        for(int i = 0; i < words.length; i++){
+            char[] word = words[i].toCharArray();
+            for(int j = 0; j < word.length; j++){
+                degree.put(word[j], 0);
             }
         }
-
-        for (int i=0;i<words.length-1;i++){
-
-            String w1 = words[i];
-            String w2 = words[i+1];
-
-            int len = Math.min(w1.length(),w2.length());
-            int k = 0;
-
-            while (k < len){
-                char ch1 = w1.charAt(k);
-                char ch2 = w2.charAt(k);
-                if ( ch1 !=  ch2){
-                    if (graph[ch1 - 'a'] == null){
-                        graph[ch1 - 'a'] = new HashSet<Integer>();
+        //compare adjacent string & fill map
+        for(int i = 0; i < words.length - 1; i++){
+            String cur = words[i];
+            String next = words[i + 1];
+            int len = Math.min(cur.length(), next.length());
+            for(int j = 0; j < len; j++){
+                char c1 = cur.charAt(j);
+                char c2 = next.charAt(j);
+                if(c1 != c2){
+                    Set<Character> set = new HashSet<Character>();//watch 'Set' declaration
+                    if(map.containsKey(c1))set = map.get(c1);
+                    if(!set.contains(c2)){
+                        set.add(c2);
+                        map.put(c1, set);
+                        degree.put(c2, degree.get(c2) + 1);
                     }
-                    // 如果添加 说明该节点是第一次出现，需要对入度进行+1 否则就是重复的
-                    // eg. w -> t , w -> t 出现两次
-                    if (graph[ch1-'a'].add(ch2-'a'))
-                        degree.put(ch2-'a',degree.getOrDefault(ch2-'a',0)+1);
-                    // 只有当char前面是相同的时候，才能进行这一对char的比较
-                    // abce abcd   ->   aeg adf 此时不能判断的情况
-                    break;
+                    break;//rest comparision is meaningless & not record it!
+                }else{
+                    //edge case - no order: ["wrtkj","wrt"] 1:next stop at end 2: cur still have lefts
+                    if(j + 1 == next.length() && j + 1 < cur.length())
+                        return "";
                 }
-                
-                k++;
             }
         }
-
-
-        Queue<Integer> queue = new LinkedList();
-
-        for (int node:degree.keySet()){
-            if (degree.get(node) == 0)
-                queue.offer(node);
+        //BFS - use Queue to pop char in order
+        Queue<Character> queue = new LinkedList<Character>();
+        for(char c: degree.keySet()){
+            if(degree.get(c)==0){
+                queue.add(c);//eg:[zx,zy], c: z,x
+            } 
         }
-
         while(!queue.isEmpty()){
-            int node = queue.poll();
-
-            sb.append((char)('a'+node));
-
-            HashSet<Integer> connect = graph[node];
-
-            // 如果相连节点为空，说明没有出度，只有入度，需要判空
-            if (connect == null)
-                continue;
-            for (int next:connect){
-
-                int nextDegree = degree.get(next) -1;
-                if (nextDegree == 0){
-                    degree.put(next,0);
-                    queue.offer(next);
+            char cur = queue.remove();
+            res.append(cur);
+            if(map.containsKey(cur)){
+                for(char c: map.get(cur)){
+                    degree.put(c, degree.get(c) - 1);
+                    if(degree.get(c) == 0)queue.add(c);//add next char
                 }
-                else
-                    // 记得更新degree的值
-                    degree.put(next,nextDegree);
             }
         }
-
-        // 如果result和degree里面出现的节点数量相同，说明其中有矛盾的节点出现
-           // a->b  b->a
-       if(sb.length()!=degree.size()) return "";
-        return sb.toString();
-
+        //avoid loops. only < possible -- eg: ["qd","ab"] res = qa
+        if(res.length() != degree.size())return "";
+        return res.toString();
     }
 }
