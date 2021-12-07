@@ -1,51 +1,60 @@
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-    if(nums.length < 2){
-        return new int[]{-1, -1};
-}
-    Map<Integer, Integer> map = new HashMap<>();
-    for(int i = 0; i < nums.length; i++){
-        if(map.containsKey(target - nums[i])){
-            return new int[]{i, map.get(target - nums[i])};
-}
-    map.put(nums[i], i);
-}
-    return new int[]{-1,-1};
-    }
-}
- 
- //// 2nd time
- class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        int[] result = new int[2];
-        Map<Integer, Integer> map = new HashMap<Integer,Integer>();
-        for(int i = 0;i<nums.length;i++){
-            if(map.containsKey(target - nums[i])){
-                result[1] = i;
-                result[0] = map.get(target-nums[i]);
-                return result;
-            }
-            map.put(nums[i],i);
+import java.util.*;
+
+class BuyAndSell {
+//    int[] buyOffers;
+//    int[] sellOffers;
+    public List<Integer> bestMatch(int[] buyOffers, int[] sellOffers, int buyPrice, int sellPrice) {
+        PriorityQueue<Integer> buy = new PriorityQueue<Integer>((a, b) -> b - a);
+        PriorityQueue<Integer> sell = new PriorityQueue<Integer>();
+        int optimumSell = 0;
+        int optimumBuy = 0;
+
+        for (int b: buyOffers) {
+            buy.add(b);
         }
-        return result;
-    }
-}
- 
- 
- ///////////////////3rd
- class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        int[] res = new int[2];
-        Map<Integer,Integer> map = new HashMap<Integer,Integer>();
-        for(int i =0;i<nums.length;i++){
-            if(map.containsKey(target-nums[i])){
-                res[1] = i;
-                res[0] = map.get(target-nums[i]);
-                return res;
-            }
-            map.put(nums[i],i);
+        for (int s: sellOffers) {
+            sell.add(s);
         }
+        if (sellPrice > buy.peek()) {
+            sell.add(sellPrice);
+        } else {
+            optimumBuy = buy.poll();
+        }
+
+        if (buyPrice < sell.peek()) {
+            buy.add(buyPrice);
+        } else {
+            optimumSell = sell.poll();
+        }
+
+        buyOffers = new int[buy.size()];
+        for(int i = 0; i < buyOffers.length; i++) {
+            buyOffers[i] = buy.poll();
+        }
+        sellOffers = new int[sell.size()];
+        for(int i = 0; i < sellOffers.length; i++) {
+            sellOffers[i] = sell.poll();
+        }
+
+        System.out.println("buy" + Arrays.toString(buyOffers));
+        System.out.println("sell" + Arrays.toString(sellOffers));
+
+        List<Integer> res = new ArrayList<>();
+        res.add(optimumBuy);
+        res.add(optimumSell);
         return res;
     }
+
+    public static void main(String[] args) {
+        BuyAndSell m = new BuyAndSell();
+        int[] buy = new int[]{100, 100, 90, 96, 98};
+        int[] sell = new int[]{109, 70, 160, 120, 90};
+        List<Integer> p = m.bestMatch(buy, sell,200, 90);
+
+//        System.out.println("buy" + Arrays.toString(buy));
+//        System.out.println("sell" + Arrays.toString(sell));
+
+        System.out.println("OptimumBuy:" + p.get(0));
+        System.out.println("OptimumSell:" + p.get(1));
+    }
 }
- 
